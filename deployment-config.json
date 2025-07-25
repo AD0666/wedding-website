@@ -1,0 +1,34 @@
+{
+  "deployment": {
+    "platform": "github-pages",
+    "repository": {
+      "username": "[YOUR_GITHUB_USERNAME]",
+      "repository": "[YOUR_REPO_NAME]",
+      "url": "https://github.com/[YOUR_GITHUB_USERNAME]/[YOUR_REPO_NAME]"
+    },
+    "homepage": "https://[YOUR_GITHUB_USERNAME].github.io/[YOUR_REPO_NAME]",
+    "branch": "gh-pages"
+  },
+  "backend": {
+    "platform": "optional",
+    "options": [
+      "heroku",
+      "vercel",
+      "railway",
+      "render"
+    ],
+    "note": "Backend deployment is optional for testing. GitHub Pages only serves static files."
+  },
+  "features": {
+    "static": true,
+    "dynamic": false,
+    "file_upload": false,
+    "database": false
+  },
+  "notes": [
+    "Update the homepage URL in package.json before deployment",
+    "The backend server functionality will not work on GitHub Pages",
+    "For full functionality, deploy the backend separately",
+    "Static images in the public folder will work fine"
+  ]
+} 

@@ -1,0 +1,285 @@
+.collage-abs-bg {
+  position: fixed;
+  inset: 0;
+  /* Animated wedding gradient background */
+  background: linear-gradient(120deg, #f8e1f4, #e0c3fc, #f9f6e7, #f7cac9);
+  background-size: 400% 400%;
+  animation: weddingGradientMove 16s ease-in-out infinite;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+@keyframes weddingGradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.collage-abs-thumb {
+  position: absolute;
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0002;
+  border: 2px solid #fff;
+  transition: box-shadow 0.2s, transform 0.3s, opacity 0.3s;
+  animation: collageFadeIn 0.7s both;
+  background: #f8f8f8;
+}
+.collage-abs-thumb:hover {
+  box-shadow: 0 12px 40px #6c63ff55, 0 4px 24px #a7a6f6aa;
+  z-index: 200;
+  transform: scale(1.25) !important;
+  transition: transform 0.25s cubic-bezier(0.4,0.2,0.2,1), box-shadow 0.2s;
+}
+.collage-reserved {
+  position: absolute;
+  left: 25vw;
+  top: 25vh;
+  width: 50vw;
+  height: 50vh;
+  z-index: 10;
+  pointer-events: none;
+  /* Optionally add a border or background for debugging */
+  /* border: 2px dashed #a7a6f6; background: rgba(167,166,246,0.05); */
+}
+@keyframes collageFadeIn {
+  from { opacity: 0; transform: scale(0.7);}
+  to { opacity: 1; }
+}
+@media (max-width: 700px) {
+  .collage-abs-thumb {
+    width: 70px;
+    height: 50px;
+  }
+  .collage-reserved {
+    left: 10vw;
+    top: 20vh;
+    width: 80vw;
+    height: 40vh;
+  }
+}
+.collage-flower-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+}
+.bride-groom-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.bride-groom-imgs {
+  display: flex;
+  gap: 3vw;
+  align-items: center;
+  justify-content: center;
+}
+.bride-groom-img-block {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.92);
+  border-radius: 2rem;
+  box-shadow: 0 8px 40px 0 #6c63ff22, 0 2px 16px 0 #a7a6f633;
+  padding: 2.2rem 2.5rem 2.5rem 2.5rem;
+  min-width: 220px;
+  margin: 0 1vw;
+  overflow: visible;
+  animation: fadeInUp 1s both;
+}
+.bride-groom-img {
+  width: 180px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 1.2rem 1.2rem 2.5rem 2.5rem;
+  border: 4px solid #e0c3fc;
+  box-shadow: 0 4px 32px #e0c3fc55, 0 2px 16px #fffbe7aa;
+  background: #fff;
+  position: relative;
+  z-index: 2;
+  /* Soft vignette effect */
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 60%, #fff 90%, transparent 100%);
+}
+.bride-groom-img-block::before {
+  content: '';
+  position: absolute;
+  top: -18px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 32px;
+  background: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 32"><path d="M10,22 Q60,2 110,22" stroke="%23e0c3fc" stroke-width="3" fill="none"/><circle cx="10" cy="22" r="4" fill="%23f8e1f4" stroke="%23e0c3fc" stroke-width="2"/><circle cx="110" cy="22" r="4" fill="%23f8e1f4" stroke="%23e0c3fc" stroke-width="2"/></svg>') no-repeat center/contain;
+  z-index: 1;
+  opacity: 0.7;
+  pointer-events: none;
+}
+.bride-groom-name {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #6c63ff;
+  margin: 1.1rem 0 0.3rem 0;
+  text-align: center;
+  font-family: 'Dancing Script', 'Segoe Script', cursive, sans-serif;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 8px #e0c3fc44;
+}
+.bride-groom-caption {
+  font-size: 1.08rem;
+  color: #23244a;
+  text-align: center;
+  opacity: 0.85;
+  font-style: italic;
+  margin-bottom: 0.2rem;
+}
+.bride-groom-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  font-size: 1.5rem;
+  color: #a7a6f6;
+  font-weight: 700;
+  background: rgba(255,255,255,0.7);
+  border-radius: 1.5rem;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px);}
+  to { opacity: 1; transform: translateY(0);}
+}
+.collage-featured-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background: rgba(255,255,255,0.12);
+  pointer-events: all;
+  animation: featuredFadeOut 0.7s 1.8s forwards;
+}
+.collage-featured-img {
+  width: 340px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 2.2rem;
+  box-shadow: 0 12px 64px #6c63ff44, 0 2px 24px #fffbe7cc;
+  border: 5px solid #e0c3fc;
+  background: #fff;
+  animation: featuredPop 1.2s cubic-bezier(0.4,0.2,0.2,1);
+}
+@keyframes featuredPop {
+  0% { opacity: 0; transform: scale(0.7); }
+  60% { opacity: 1; transform: scale(1.12); }
+  80% { opacity: 1; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes featuredFadeOut {
+  to { opacity: 0; pointer-events: none; }
+}
+.collage-upload-btn {
+  position: fixed;
+  top: 32px;
+  right: 36px;
+  z-index: 120;
+  background: linear-gradient(90deg, #a7a6f6 0%, #6c63ff 100%);
+  color: #23244a;
+  font-weight: 800;
+  font-size: 1.08rem;
+  padding: 0.9rem 2.1rem;
+  border-radius: 2rem;
+  box-shadow: 0 2px 12px 0 #6c63ff33;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.15s;
+  position: fixed;
+  overflow: hidden;
+}
+.collage-upload-btn:hover, .collage-upload-btn:focus {
+  background: linear-gradient(90deg, #6c63ff 0%, #a7a6f6 100%);
+  color: #fff;
+  transform: scale(1.06);
+  box-shadow: 0 8px 32px 0 #a7a6f6aa, 0 2px 16px 0 #6c63ff33;
+}
+@media (max-width: 700px) {
+  .collage-upload-btn {
+    top: 16px;
+    right: 16px;
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+} 
+.upload-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(24, 28, 43, 0.85);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.upload-modal {
+  background: rgba(255,255,255,0.98);
+  border-radius: 2rem;
+  box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.28), 0 2px 16px 0 #6c63ff33;
+  padding: 2.2rem 2.7rem;
+  min-width: 340px;
+  max-width: 95vw;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.upload-modal h3 {
+  color: #23244a;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.01em;
+}
+.privacy-options {
+  display: flex;
+  gap: 2.2rem;
+  margin: 1.2rem 0 1.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #23244a;
+}
+.privacy-options input[type="radio"] {
+  accent-color: #6c63ff;
+  margin-right: 0.5em;
+}
+.upload-modal-actions {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  width: 100%;
+}
+.upload-modal-actions button {
+  background: linear-gradient(90deg, #a7a6f6 0%, #6c63ff 100%);
+  color: #23244a;
+  font-weight: 800;
+  font-size: 1.08rem;
+  padding: 0.7rem 1.7rem;
+  border-radius: 1.2rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 12px 0 #6c63ff33;
+}
+.upload-modal-actions button:hover, .upload-modal-actions button:focus {
+  background: linear-gradient(90deg, #6c63ff 0%, #a7a6f6 100%);
+  color: #fff;
+  transform: scale(1.06);
+  box-shadow: 0 8px 32px 0 #a7a6f6aa, 0 2px 16px 0 #6c63ff33;
+} 
