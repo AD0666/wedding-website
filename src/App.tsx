@@ -666,7 +666,8 @@ function App() {
               <div style={{ color: '#a7a6f6', fontWeight: 600, fontSize: '1.1rem' }}>No public photos yet.</div>
             )}
             {galleryImages.slice().reverse().map((img, idx) => {
-              const thumbUrl = `/uploads/${img.thumbnail}`;
+              const API_URL = process.env.REACT_APP_API_URL;
+              const thumbUrl = `${API_URL}/uploads/${img.thumbnail}`;
               // Only render if not explicitly failed
               if (loadedImages[img.thumbnail] === false) return null;
               return (
