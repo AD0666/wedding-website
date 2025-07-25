@@ -420,7 +420,8 @@ function App() {
   // Fetch public images
   const fetchGalleryImages = async () => {
     try {
-      const res = await fetch('/public-photos');
+      const API_URL = process.env.REACT_APP_API_URL;
+      const res = await fetch(`${API_URL}/public-photos`);
       const data = await res.json();
       console.log('Fetched galleryImages:', data); // DEBUG
       setGalleryImages(data);
@@ -509,12 +510,13 @@ function App() {
   const handleFileChange = async (e) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
+    const API_URL = process.env.REACT_APP_API_URL;
     setUploading(true);
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
       formData.append('photos', files[i]);
     }
-    const endpoint = uploadPrivacy === 'private' ? '/upload/private' : '/upload/public';
+    const endpoint = `${API_URL}${uploadPrivacy === 'private' ? '/upload/private' : '/upload/public'}`;
     try {
       await fetch(endpoint, {
         method: 'POST',
