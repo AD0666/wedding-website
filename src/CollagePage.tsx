@@ -188,13 +188,14 @@ export default function CollagePage() {
   const [uploadPrivacy, setUploadPrivacy] = useState('public');
 
   useEffect(() => {
-    fetch('/public-photos')
+    const API_URL = process.env.REACT_APP_API_URL;
+    fetch(`${API_URL}/public-photos`)
       .then(res => res.json())
       .then(imgs => {
         setImages(imgs);
         setPositions(imgs.map((_, idx) => getRandomPosition(idx, imgs.length)));
       });
-    fetch('/bride-groom-photos')
+    fetch(`${API_URL}/bride-groom-photos`)
       .then(res => res.json())
       .then(setBrideGroom)
       .catch(() => setBrideGroom(null));
@@ -243,14 +244,15 @@ export default function CollagePage() {
       formData.append('photos', files[i]);
     }
     try {
-      const endpoint = uploadPrivacy === 'private' ? '/upload/private' : '/upload/public';
+      const API_URL = process.env.REACT_APP_API_URL;
+      const endpoint = `${API_URL}${uploadPrivacy === 'private' ? '/upload/private' : '/upload/public'}`;
       await fetch(endpoint, {
         method: 'POST',
         body: formData,
       });
       if (uploadPrivacy === 'public') {
         // Refetch images to get the new ones
-        const res = await fetch('/public-photos');
+        const res = await fetch(`${API_URL}/public-photos`);
         const imgs = await res.json();
         // Animate all new images in order, but do not add to collage yet
         if (imgs.length > 0) {
@@ -345,7 +347,7 @@ export default function CollagePage() {
       <>
         {trail}
         <img
-          src={`/uploads/${anim.img.original}`}
+          src={`${process.env.REACT_APP_API_URL}/uploads/${anim.img.original}`}
           alt=""
           style={{
             position: 'fixed',
@@ -449,7 +451,7 @@ export default function CollagePage() {
       {showFeatured && featured && (
         <div className="collage-featured-overlay">
           <img
-            src={`/uploads/${featured.original}`}
+            src={`${process.env.REACT_APP_API_URL}/uploads/${featured.original}`}
             alt="Featured"
             className="collage-featured-img"
             onError={() => setShowFeatured(false)}
@@ -462,12 +464,12 @@ export default function CollagePage() {
           <div className="bride-groom-center">
             <div className="bride-groom-imgs">
               <div className="bride-groom-img-block">
-                <img src={`/uploads/bride-groom/${brideGroom.bride.photo}`} alt={brideGroom.bride.name} className="bride-groom-img" />
+                <img src={`${process.env.REACT_APP_API_URL}/uploads/bride-groom/${brideGroom.bride.photo}`} alt={brideGroom.bride.name} className="bride-groom-img" />
                 <div className="bride-groom-name">{brideGroom.bride.name}</div>
                 <div className="bride-groom-caption">{brideGroom.bride.caption}</div>
               </div>
               <div className="bride-groom-img-block">
-                <img src={`/uploads/bride-groom/${brideGroom.groom.photo}`} alt={brideGroom.groom.name} className="bride-groom-img" />
+                <img src={`${process.env.REACT_APP_API_URL}/uploads/bride-groom/${brideGroom.groom.photo}`} alt={brideGroom.groom.name} className="bride-groom-img" />
                 <div className="bride-groom-name">{brideGroom.groom.name}</div>
                 <div className="bride-groom-caption">{brideGroom.groom.caption}</div>
               </div>
@@ -483,7 +485,7 @@ export default function CollagePage() {
         return (
           <img
             key={img.thumbnail + idx}
-            src={hovered[img.thumbnail + idx] ? `/uploads/${img.original}` : `/uploads/${img.thumbnail}`}
+            src={hovered[img.thumbnail + idx] ? `${process.env.REACT_APP_API_URL}/uploads/${img.original}` : `${process.env.REACT_APP_API_URL}/uploads/${img.thumbnail}`}
             alt=""
             className="collage-abs-thumb"
             style={{

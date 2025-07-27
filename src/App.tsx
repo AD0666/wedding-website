@@ -100,8 +100,6 @@ function FloatingCollageButton() {
       href="/collage"
       className="fab-collage"
       title="Collage"
-      target="_blank"
-      rel="noopener noreferrer"
     >
       Collage
     </a>
