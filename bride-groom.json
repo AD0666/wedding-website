@@ -1,0 +1,12 @@
+{
+  "bride": {
+    "name": "Alex",
+    "photo": "bride.jpg",
+    "caption": "The beautiful bride"
+  },
+  "groom": {
+    "name": "Jamie",
+    "photo": "groom.jpg",
+    "caption": "The dashing groom"
+  }
+} 
