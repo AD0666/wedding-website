@@ -196,9 +196,17 @@ export default function CollagePage() {
         setPositions(imgs.map((_, idx) => getRandomPosition(idx, imgs.length)));
       });
     fetch(`${API_URL}/bride-groom-photos`)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
       .then(setBrideGroom)
-      .catch(() => setBrideGroom(null));
+      .catch((error) => {
+        console.error('Failed to fetch bride-groom data:', error);
+        setBrideGroom(null);
+      });
   }, []);
 
   // Show featured photo every 20 seconds, only from loaded images
@@ -460,7 +468,7 @@ export default function CollagePage() {
       )}
       {/* Reserved area for Groom/Bride details */}
       <div className="collage-reserved">
-        {brideGroom ? (
+        {brideGroom && brideGroom.bride && brideGroom.groom ? (
           <div className="bride-groom-center">
             <div className="bride-groom-imgs">
               <div className="bride-groom-img-block">
