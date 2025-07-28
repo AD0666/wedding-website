@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './App.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -96,13 +97,13 @@ function FloatingActionButton() {
 // --- Collage Floating Button ---
 function FloatingCollageButton() {
   return (
-    <a
-      href="/collage"
+    <Link
+      to="/collage"
       className="fab-collage"
       title="Collage"
     >
       Collage
-    </a>
+    </Link>
   );
 }
 // --- End Collage Floating Button ---
