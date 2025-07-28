@@ -419,13 +419,14 @@ function App() {
   const fetchGalleryImages = async () => {
     try {
       const API_URL = process.env.REACT_APP_API_URL;
+      console.log('API_URL:', API_URL); // DEBUG
       const res = await fetch(`${API_URL}/public-photos`);
       const data = await res.json();
       console.log('Fetched galleryImages:', data); // DEBUG
       setGalleryImages(data);
     } catch (err) {
-      setGalleryImages([]);
       console.error('Failed to fetch gallery images:', err); // DEBUG
+      setGalleryImages([]);
     }
   };
 
@@ -451,6 +452,7 @@ function App() {
 
   useEffect(() => {
     fetchGalleryImages();
+    console.log('App mounted, API_URL:', process.env.REACT_APP_API_URL);
   }, []);
 
   // --- Heart Trail Animation ---
@@ -549,6 +551,7 @@ function App() {
     ]);
   };
 
+  console.log('App component rendering...'); // DEBUG
   return (
     <div className="App">
       {/* --- Floating Fog/Smoke Canvas Overlay --- */}
