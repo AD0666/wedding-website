@@ -58,6 +58,20 @@
     width: 80vw;
     height: 40vh;
   }
+  .collage-upload-btn {
+    top: 16px;
+    right: 16px;
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 1.5rem;
+    /* Ensure horizontal display */
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 .collage-flower-canvas {
   position: fixed;
@@ -198,8 +212,15 @@
   cursor: pointer;
   letter-spacing: 0.03em;
   transition: background 0.2s, color 0.2s, transform 0.15s, box-shadow 0.15s;
-  position: fixed;
-  overflow: hidden;
+  /* Remove duplicate position: fixed and overflow: hidden */
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: fit-content;
+  height: auto;
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
 }
 .collage-upload-btn:hover, .collage-upload-btn:focus {
   background: linear-gradient(90deg, #6c63ff 0%, #a7a6f6 100%);
@@ -360,11 +381,18 @@
   
   /* Upload button mobile */
   .collage-upload-btn {
-    bottom: 16px;
+    top: 16px;
     right: 16px;
     font-size: 0.9rem;
     padding: 0.7rem 1.3rem;
     border-radius: 1.5rem;
+    /* Ensure horizontal display */
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   
   /* Upload modal mobile */
@@ -440,10 +468,18 @@
   }
   
   .collage-upload-btn {
-    bottom: 12px;
+    top: 12px;
     right: 12px;
     font-size: 0.85rem;
     padding: 0.6rem 1.1rem;
+    border-radius: 1.2rem;
+    /* Ensure horizontal display */
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -500,7 +536,14 @@
 /* Safe area for devices with notches */
 @supports (padding: max(0px)) {
   .collage-upload-btn {
-    bottom: max(12px, env(safe-area-inset-bottom));
+    top: max(12px, env(safe-area-inset-top));
     right: max(12px, env(safe-area-inset-right));
+    /* Ensure horizontal display */
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 } 
