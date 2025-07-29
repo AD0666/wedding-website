@@ -86,6 +86,72 @@ function FloatingNav({ triggerFileInput, uploading }) {
   );
 }
 
+function MobileNavigation({ triggerFileInput, uploading }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
+  const handleNavClick = (e) => {
+    closeMenu();
+  };
+
+  const handleUploadClick = (e) => {
+    e.preventDefault();
+    triggerFileInput();
+    closeMenu();
+  };
+
+  return (
+    <>
+      <button 
+        className={`mobile-menu-toggle ${isOpen ? 'active' : ''}`}
+        onClick={toggleMenu}
+        aria-label="Toggle mobile menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <div className={`mobile-nav-overlay ${isOpen ? 'active' : ''}`} onClick={closeMenu}>
+        <div className="mobile-nav-menu" onClick={(e) => e.stopPropagation()}>
+          <a href="#hero" className="mobile-nav-item" onClick={handleNavClick}>
+            Home
+          </a>
+          <a href="#our-story" className="mobile-nav-item" onClick={handleNavClick}>
+            Our Story
+          </a>
+          <a href="#event-details" className="mobile-nav-item" onClick={handleNavClick}>
+            Event Details
+          </a>
+          <button 
+            className="mobile-nav-item upload-item" 
+            onClick={handleUploadClick}
+            disabled={uploading}
+          >
+            {uploading ? 'Uploading...' : 'Upload Photos'}
+          </button>
+          <a href="#rsvp" className="mobile-nav-item" onClick={handleNavClick}>
+            RSVP
+          </a>
+          <a href="#gallery" className="mobile-nav-item" onClick={handleNavClick}>
+            Gallery
+          </a>
+          <a href="#registry" className="mobile-nav-item" onClick={handleNavClick}>
+            Registry
+          </a>
+        </div>
+      </div>
+    </>
+  );
+}
+
 function FloatingActionButton() {
   return (
     <a href="#rsvp" className="fab-rsvp" title="RSVP">
@@ -576,6 +642,7 @@ function App() {
         uploading={uploading}
       />
       <FloatingNav triggerFileInput={triggerFileInput} uploading={uploading} />
+      <MobileNavigation triggerFileInput={triggerFileInput} uploading={uploading} />
       <FloatingActionButton />
       <FloatingCollageButton />
       <CometHero />
@@ -596,7 +663,7 @@ function App() {
             onMouseMove={handleParallaxMouseMove}
             style={{ position: 'relative', zIndex: 2, cursor: 'pointer' }}
           >
-            Alex & Jamie
+            Paiya & Risly
             {/* --- Heart Trail Overlay --- */}
             {hearts.map((h) => (
               <span
@@ -619,7 +686,7 @@ function App() {
             {/* --- End Heart Trail Overlay --- */}
           </span>
         </h1>
-        <p className="date">September 21, 2024</p>
+        <p className="date">October 9, 2025</p>
         <p className="tagline">
           <span className="heartbeat-text">Two hearts</span>, <HeartTrail />.
         </p>
@@ -705,7 +772,7 @@ function App() {
         </section>
       </main>
       <footer className="footer" data-aos="fade-up" data-aos-delay="1200">
-        <p>With love, Alex & Jamie</p>
+        <p>With love, Paiya & Risly</p>
         <p>Contact: <a href="mailto:shillongpixels@gmail.com">shillongpixels@gmail.com</a></p>
       </footer>
       {/* --- Lily SVGs Overlay (Easily Removable) --- */}

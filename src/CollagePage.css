@@ -283,3 +283,224 @@
   transform: scale(1.06);
   box-shadow: 0 8px 32px 0 #a7a6f6aa, 0 2px 16px 0 #6c63ff33;
 } 
+
+/* ===== MOBILE RESPONSIVENESS FOR COLLAGE PAGE ===== */
+
+@media (max-width: 768px) {
+  /* Collage background mobile */
+  .collage-abs-bg {
+    background-size: 200% 200%;
+  }
+  
+  /* Thumbnail mobile optimization */
+  .collage-abs-thumb {
+    width: 60px;
+    height: 45px;
+    border-radius: 0.6rem;
+  }
+  
+  /* Reserved area mobile */
+  .collage-reserved {
+    left: 5vw;
+    top: 15vh;
+    width: 90vw;
+    height: 35vh;
+  }
+  
+  /* Bride-groom center mobile layout */
+  .bride-groom-center {
+    padding: 1rem;
+  }
+  
+  .bride-groom-imgs {
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+  }
+  
+  .bride-groom-img-block {
+    padding: 1.5rem 1.2rem 1.8rem 1.2rem;
+    min-width: 180px;
+    margin: 0;
+    border-radius: 1.5rem;
+  }
+  
+  .bride-groom-img {
+    width: 140px;
+    height: 170px;
+    border-radius: 1rem 1rem 2rem 2rem;
+    border-width: 3px;
+  }
+  
+  .bride-groom-img-block::before {
+    top: -12px;
+    width: 80px;
+    height: 24px;
+  }
+  
+  .bride-groom-name {
+    font-size: 1.2rem;
+    margin: 0.8rem 0 0.2rem 0;
+  }
+  
+  .bride-groom-caption {
+    font-size: 0.95rem;
+  }
+  
+  /* Featured overlay mobile */
+  .collage-featured-overlay {
+    padding: 1rem;
+  }
+  
+  .collage-featured-img {
+    max-width: 90vw;
+    max-height: 70vh;
+    border-radius: 1rem;
+  }
+  
+  /* Upload button mobile */
+  .collage-upload-btn {
+    bottom: 16px;
+    right: 16px;
+    font-size: 0.9rem;
+    padding: 0.7rem 1.3rem;
+    border-radius: 1.5rem;
+  }
+  
+  /* Upload modal mobile */
+  .upload-modal {
+    width: 90%;
+    max-width: 350px;
+    padding: 1.5rem;
+    border-radius: 1rem;
+  }
+  
+  .upload-modal h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .upload-modal-actions {
+    gap: 0.8rem;
+  }
+  
+  .upload-modal-actions button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    border-radius: 0.8rem;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .collage-abs-thumb {
+    width: 50px;
+    height: 38px;
+    border-radius: 0.5rem;
+  }
+  
+  .collage-reserved {
+    left: 2vw;
+    top: 12vh;
+    width: 96vw;
+    height: 30vh;
+  }
+  
+  .bride-groom-img-block {
+    padding: 1.2rem 1rem 1.5rem 1rem;
+    min-width: 150px;
+    border-radius: 1.2rem;
+  }
+  
+  .bride-groom-img {
+    width: 120px;
+    height: 145px;
+    border-radius: 0.8rem 0.8rem 1.5rem 1.5rem;
+    border-width: 2px;
+  }
+  
+  .bride-groom-img-block::before {
+    top: -10px;
+    width: 70px;
+    height: 20px;
+  }
+  
+  .bride-groom-name {
+    font-size: 1.1rem;
+    margin: 0.6rem 0 0.2rem 0;
+  }
+  
+  .bride-groom-caption {
+    font-size: 0.9rem;
+  }
+  
+  .collage-featured-img {
+    max-width: 95vw;
+    max-height: 65vh;
+  }
+  
+  .collage-upload-btn {
+    bottom: 12px;
+    right: 12px;
+    font-size: 0.85rem;
+    padding: 0.6rem 1.1rem;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  .bride-groom-imgs {
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+  
+  .bride-groom-img-block {
+    padding: 1.2rem 1rem 1.5rem 1rem;
+    min-width: 140px;
+  }
+  
+  .bride-groom-img {
+    width: 100px;
+    height: 120px;
+  }
+  
+  .bride-groom-name {
+    font-size: 1rem;
+  }
+  
+  .bride-groom-caption {
+    font-size: 0.85rem;
+  }
+  
+  .collage-reserved {
+    top: 10vh;
+    height: 25vh;
+  }
+}
+
+/* Touch-friendly improvements for collage */
+@media (hover: none) and (pointer: coarse) {
+  .collage-abs-thumb:hover {
+    transform: none;
+  }
+  
+  .collage-abs-thumb:active {
+    transform: scale(0.95);
+  }
+  
+  .collage-upload-btn:hover {
+    transform: none;
+  }
+  
+  .collage-upload-btn:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Safe area for devices with notches */
+@supports (padding: max(0px)) {
+  .collage-upload-btn {
+    bottom: max(12px, env(safe-area-inset-bottom));
+    right: max(12px, env(safe-area-inset-right));
+  }
+} 

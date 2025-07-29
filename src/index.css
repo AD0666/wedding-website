@@ -11,6 +11,16 @@ body {
   color: #f5f6fa;
   min-height: 100vh;
   transition: background 0.5s;
+  /* Mobile touch improvements */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Smooth scrolling for mobile */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 @keyframes gradientMove {
@@ -24,6 +34,10 @@ body {
 html {
   box-sizing: border-box;
   scroll-behavior: smooth;
+  /* Mobile viewport improvements */
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 *, *:before, *:after {
@@ -56,4 +70,33 @@ code {
 html {
   scrollbar-width: thin;
   scrollbar-color: #6c63ff #181c2b;
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  /* Prevent zoom on input focus */
+  input, textarea, select {
+    font-size: 16px !important;
+  }
+  
+  /* Improve touch targets */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Disable hover effects on touch devices */
+  @media (hover: none) and (pointer: coarse) {
+    *:hover {
+      transform: none !important;
+    }
+  }
+}
+
+/* High DPI mobile screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
