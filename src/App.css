@@ -510,6 +510,22 @@ a:hover, .map-link:hover, .footer a:hover {
   }
 }
 
+.logout-btn {
+  background: rgba(231, 76, 60, 0.2) !important;
+  border: 1px solid rgba(231, 76, 60, 0.3) !important;
+  transition: all 0.3s ease !important;
+}
+
+.logout-btn:hover {
+  background: rgba(231, 76, 60, 0.3) !important;
+  border-color: rgba(231, 76, 60, 0.5) !important;
+  transform: translateY(-2px) !important;
+}
+
+.logout-btn span {
+  font-size: 1.1rem;
+}
+
 @media (max-width: 700px) {
   .floating-nav {
     top: 12px;
@@ -1329,6 +1345,18 @@ a:hover, .map-link:hover, .footer a:hover {
 .mobile-nav-item.upload-item:focus {
   background: linear-gradient(90deg, #6c63ff 0%, #a7a6f6 100%);
   color: #fff;
+}
+
+.mobile-nav-item.logout-item {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  border: 1px solid rgba(231, 76, 60, 0.2);
+}
+
+.mobile-nav-item.logout-item:hover,
+.mobile-nav-item.logout-item:focus {
+  background: rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
 }
 
 /* Mobile navigation responsive behavior */

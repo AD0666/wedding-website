@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './App.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import PasswordGate from './components/PasswordGate.tsx';
 
 function UploadModal({ open, onClose, onConfirm, uploading }) {
   const [privacy, setPrivacy] = useState('public');
@@ -70,7 +71,7 @@ function CometHero() {
   );
 }
 
-function FloatingNav({ triggerFileInput, uploading }) {
+function FloatingNav({ triggerFileInput, uploading, onLogout }) {
   return (
     <nav className="floating-nav">
       <a href="#hero" className="nav-btn">Home</a>
@@ -82,11 +83,14 @@ function FloatingNav({ triggerFileInput, uploading }) {
       <a href="#rsvp" className="nav-btn">RSVP</a>
       <a href="#gallery" className="nav-btn">Gallery</a>
       <a href="#registry" className="nav-btn">Registry</a>
+      <button className="nav-btn logout-btn" onClick={onLogout} title="Logout">
+        <span>🔒</span>
+      </button>
     </nav>
   );
 }
 
-function MobileNavigation({ triggerFileInput, uploading }) {
+function MobileNavigation({ triggerFileInput, uploading, onLogout }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -146,6 +150,15 @@ function MobileNavigation({ triggerFileInput, uploading }) {
           <a href="#registry" className="mobile-nav-item" onClick={handleNavClick}>
             Registry
           </a>
+          <button 
+            className="mobile-nav-item logout-item" 
+            onClick={() => {
+              onLogout();
+              closeMenu();
+            }}
+          >
+            🔒 Logout
+          </button>
         </div>
       </div>
     </>
@@ -474,6 +487,7 @@ function App() {
   const [galleryImages, setGalleryImages] = useState([]);
   const [loadedImages, setLoadedImages] = useState({});
   const [lightboxImage, setLightboxImage] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // --- Heart Trail State ---
   const [hearts, setHearts] = useState([]);
@@ -495,6 +509,17 @@ function App() {
       console.error('Failed to fetch gallery images:', err); // DEBUG
       setGalleryImages([]);
     }
+  };
+
+  // Handle successful password authentication
+  const handlePasswordCorrect = () => {
+    setIsAuthenticated(true);
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('weddingAuth');
+    setIsAuthenticated(false);
   };
 
   useEffect(() => {
@@ -619,6 +644,12 @@ function App() {
   };
 
   console.log('App component rendering...'); // DEBUG
+  
+  // Show password gate if not authenticated
+  if (!isAuthenticated) {
+    return <PasswordGate onPasswordCorrect={handlePasswordCorrect} />;
+  }
+  
   return (
     <div className="App">
       {/* --- Floating Fog/Smoke Canvas Overlay --- */}
@@ -641,8 +672,8 @@ function App() {
         onConfirm={handleModalConfirm}
         uploading={uploading}
       />
-      <FloatingNav triggerFileInput={triggerFileInput} uploading={uploading} />
-      <MobileNavigation triggerFileInput={triggerFileInput} uploading={uploading} />
+      <FloatingNav triggerFileInput={triggerFileInput} uploading={uploading} onLogout={handleLogout} />
+      <MobileNavigation triggerFileInput={triggerFileInput} uploading={uploading} onLogout={handleLogout} />
       <FloatingActionButton />
       <FloatingCollageButton />
       <CometHero />

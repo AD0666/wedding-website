@@ -15,12 +15,15 @@ const publicListPath = path.join(__dirname, 'public.json');
 const thumbnailsDir = path.join(__dirname, 'uploads', 'thumbnails', 'public');
 const brideGroomPath = path.join(__dirname, 'bride-groom.json');
 const brideGroomUploadsDir = path.join(__dirname, 'uploads', 'bride-groom');
+const couplePhotosDir = path.join(__dirname, 'uploads', 'couple-photos');
+const couplePhotosListPath = path.join(__dirname, 'couple-photos.json');
 
 // Ensure directories exist
-[uploadBase, publicDir, privateDir].forEach(dir => {
+[uploadBase, publicDir, privateDir, couplePhotosDir].forEach(dir => {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 });
 if (!fs.existsSync(publicListPath)) fs.writeFileSync(publicListPath, JSON.stringify([]));
+if (!fs.existsSync(couplePhotosListPath)) fs.writeFileSync(couplePhotosListPath, JSON.stringify([]));
 if (!fs.existsSync(thumbnailsDir)) fs.mkdirSync(thumbnailsDir, { recursive: true });
 if (!fs.existsSync(brideGroomUploadsDir)) fs.mkdirSync(brideGroomUploadsDir, { recursive: true });
 
@@ -118,9 +121,26 @@ app.get('/bride-groom-photos', (req, res) => {
   res.json(data);
 });
 
+app.get('/couple-photos', (req, res) => {
+  try {
+    if (!fs.existsSync(couplePhotosListPath)) {
+      return res.json({ photos: [] });
+    }
+    
+    const couplePhotosList = JSON.parse(fs.readFileSync(couplePhotosListPath, 'utf8'));
+    const photos = couplePhotosList.map(photo => `/uploads/couple-photos/${photo}`);
+    
+    res.json({ photos });
+  } catch (error) {
+    console.error('Error reading couple photos:', error);
+    res.json({ photos: [] });
+  }
+});
+
 app.use('/uploads/public', express.static(publicDir));
 app.use('/uploads/thumbnails/public', express.static(thumbnailsDir));
 app.use('/uploads/bride-groom', express.static(brideGroomUploadsDir));
+app.use('/uploads/couple-photos', express.static(couplePhotosDir));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 
