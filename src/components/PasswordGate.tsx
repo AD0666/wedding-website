@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './PasswordGate.css';
 import CouplePhotoGallery from './CouplePhotoGallery.tsx';
-import TestComponent from './TestComponent';
+import CountdownTimer from './CountdownTimer.tsx';
+import FloatingFlowers from './FloatingFlowers.tsx';
 
 interface PasswordGateProps {
   onPasswordCorrect: () => void;
@@ -55,56 +56,50 @@ const PasswordGate: React.FC<PasswordGateProps> = ({ onPasswordCorrect }) => {
         </div>
       </div>
 
-      {/* Right Side - Password Form */}
+      {/* Right Side - Wedding Details */}
       <div className="password-gate-right">
+        <FloatingFlowers />
         <div className="password-gate-content">
-          <h2>Welcome</h2>
-          
-          <div className="wedding-hearts">
-            <span>💕</span>
-            <span>💍</span>
-            <span>💕</span>
-          </div>
-          
-          <div className="password-form-container">
-            <p>Please enter the password to view our special day</p>
+          <div className="wedding-details">
+            <div className="wedding-day">Thursday</div>
+            <div className="wedding-date-main">October 9, 2025</div>
+            <div className="wedding-location">Jowai, India</div>
             
-            <form onSubmit={handleSubmit} className="password-form">
-              <div className="password-input-group">
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => {
-                    console.log('Password input changed:', e.target.value);
-                    setPassword(e.target.value);
-                  }}
-                  placeholder="Enter password"
-                  className="password-input"
-                  disabled={isLoading}
-                  autoFocus
-                  style={{ zIndex: 1000, position: 'relative' }}
-                />
-                <button 
-                  type="submit" 
-                  className="password-submit"
-                  disabled={isLoading || !password.trim()}
-                >
-                  {isLoading ? 'Entering...' : 'Enter'}
-                </button>
-              </div>
+            <CountdownTimer weddingDate={new Date('2025-10-09T00:00:00')} />
+            
+            <div className="password-form-container">
+              <p>Please enter the password to view our special day</p>
               
-
-              
-              {error && (
-                <div className="password-error">
-                  {error}
+              <form onSubmit={handleSubmit} className="password-form">
+                <div className="password-input-group">
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                    }}
+                    placeholder="Enter password"
+                    className="password-input"
+                    disabled={isLoading}
+                    autoFocus
+                    style={{ zIndex: 1000, position: 'relative' }}
+                  />
+                  <button 
+                    type="submit" 
+                    className="password-submit"
+                    disabled={isLoading || !password.trim()}
+                  >
+                    {isLoading ? 'Entering...' : 'Enter'}
+                  </button>
                 </div>
-              )}
-            </form>
-          </div>
-
-          <div className="password-gate-footer">
-            <p>With love, Paiya & Risly</p>
+                
+                {error && (
+                  <div className="password-error">
+                    {error}
+                  </div>
+                )}
+              </form>
+            </div>
           </div>
         </div>
       </div>

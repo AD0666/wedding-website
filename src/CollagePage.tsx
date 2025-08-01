@@ -181,9 +181,7 @@ export default function CollagePage() {
   const [showUpload, setShowUpload] = useState(false);
   const fileInputRef = useRef();
   const uploadBtnRef = useRef();
-  const [uploadAnimQueue, setUploadAnimQueue] = useState([]); // queue of {img, start, end, key}
-  const [uploadAnim, setUploadAnim] = useState(null); // current anim
-  const [pendingImages, setPendingImages] = useState([]); // images waiting to be added after animation
+
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [uploadPrivacy, setUploadPrivacy] = useState('public');
 
@@ -243,7 +241,7 @@ export default function CollagePage() {
     };
   }, [showFeatured]);
 
-  // Upload handler (queue animations for all new images)
+  // Upload handler (directly add images to collage)
   const handleFileChange = async (e) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
@@ -262,34 +260,18 @@ export default function CollagePage() {
         // Refetch images to get the new ones
         const res = await fetch(`${API_URL}/public-photos`);
         const imgs = await res.json();
-        // Animate all new images in order, but do not add to collage yet
+        // Directly add new images to collage without animation
         if (imgs.length > 0) {
           const newImgs = imgs.slice(-files.length);
-          const btnRect = uploadBtnRef.current.getBoundingClientRect();
-          const start = {
-            x: btnRect.left + btnRect.width / 2,
-            y: btnRect.top + btnRect.height / 2,
-          };
-          // Precompute final positions for each new image
           const baseIdx = images.length;
-          const anims = newImgs.map((img, i) => {
+          const newPositions = newImgs.map((img, i) => {
             const idx = baseIdx + i;
-            const collagePos = getRandomPosition(idx, baseIdx + newImgs.length);
-            const collageX = window.innerWidth * (collagePos.x || 0.5) - 60;
-            const collageY = window.innerHeight * (collagePos.y || 0.5) - 45;
-            return {
-              img,
-              start,
-              end: { x: collageX, y: collageY },
-              key: Date.now() + i,
-              collagePos,
-            };
+            return getRandomPosition(idx, baseIdx + newImgs.length);
           });
-          setUploadAnimQueue(anims);
-          setPendingImages(prev => [
-            ...prev,
-            ...anims.map(a => ({ img: a.img, collagePos: a.collagePos }))
-          ]);
+          
+          // Add new images and positions directly to state
+          setImages(prev => [...prev, ...newImgs]);
+          setPositions(prev => [...prev, ...newPositions]);
         }
       }
       alert('Upload successful!');
@@ -299,83 +281,9 @@ export default function CollagePage() {
     e.target.value = '';
   };
 
-  // Sequentially animate each upload, then add to collage
-  useEffect(() => {
-    if (!uploadAnim && uploadAnimQueue.length > 0) {
-      setUploadAnim(uploadAnimQueue[0]);
-      setUploadAnimQueue(q => q.slice(1));
-    }
-    if (uploadAnim) {
-      const timeout = setTimeout(() => {
-        setUploadAnim(null);
-        // After animation, add the image to the collage at the same position
-        setImages(prev => [...prev, uploadAnim.img]);
-        setPositions(prev => [...prev, uploadAnim.collagePos]);
-        setPendingImages(prev => prev.filter(p => p.img !== uploadAnim.img));
-      }, 10000);
-      return () => clearTimeout(timeout);
-    }
-  }, [uploadAnim, uploadAnimQueue]);
 
-  // Flying upload animation component
-  function UploadFlyAnim({ anim }) {
-    const [progress, setProgress] = useState(0);
-    useEffect(() => {
-      let startTime;
-      function animate(ts) {
-        if (!startTime) startTime = ts;
-        const elapsed = ts - startTime;
-        const dur = 10000;
-        const t = Math.min(elapsed / dur, 1);
-        setProgress(t);
-        if (t < 1) requestAnimationFrame(animate);
-      }
-      requestAnimationFrame(animate);
-    }, [anim.key]);
-    // Interpolate position
-    const x = anim.start.x + (anim.end.x - anim.start.x) * progress;
-    const y = anim.start.y + (anim.end.y - anim.start.y) * progress;
-    // Sparkle/petal trail
-    const trail = Array.from({ length: 8 }, (_, i) => {
-      const frac = i / 7;
-      const tx = anim.start.x + (anim.end.x - anim.start.x) * frac;
-      const ty = anim.start.y + (anim.end.y - anim.start.y) * frac;
-      const isSparkle = i % 2 === 0;
-      return isSparkle ? (
-        <svg key={i} style={{ position: 'absolute', left: tx, top: ty, width: 18, height: 18, pointerEvents: 'none', zIndex: 9998, opacity: 0.5 + 0.5 * (1 - frac) }}>
-          <circle cx="9" cy="9" r="5" fill="#fffbe7" stroke="#f9d423" strokeWidth="1.5" />
-        </svg>
-      ) : (
-        <svg key={i} style={{ position: 'absolute', left: tx, top: ty, width: 18, height: 18, pointerEvents: 'none', zIndex: 9998, opacity: 0.5 + 0.5 * (1 - frac) }}>
-          <ellipse cx="9" cy="9" rx="6" ry="4" fill="#f48fb1" />
-        </svg>
-      );
-    });
-    return (
-      <>
-        {trail}
-        <img
-          src={`${process.env.REACT_APP_API_URL}/uploads/${anim.img.original}`}
-          alt=""
-          style={{
-            position: 'fixed',
-            left: x,
-            top: y,
-            width: 120,
-            height: 90,
-            borderRadius: 12,
-            boxShadow: '0 4px 24px #6c63ff55',
-            border: '2px solid #fff',
-            zIndex: 9999,
-            transform: `scale(${1.2 - 0.2 * progress})`,
-            opacity: 1 - 0.2 * progress,
-            pointerEvents: 'none',
-            transition: 'none',
-          }}
-        />
-      </>
-    );
-  }
+
+
 
   // Upload Modal
   function UploadModal({ open, onClose, onConfirm, uploading }) {
@@ -453,8 +361,7 @@ export default function CollagePage() {
         multiple
         onChange={handleFileChange}
       />
-      {/* Flying upload animation overlay */}
-      {uploadAnim && <UploadFlyAnim anim={uploadAnim} />}
+
       {/* Featured photo pop-up overlay */}
       {showFeatured && featured && (
         <div className="collage-featured-overlay">
