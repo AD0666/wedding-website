@@ -21,9 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "render-build": "npm run build",
-    "render-start": "node server.js"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -47,5 +45,6 @@
     "electron": "^37.2.3",
     "electron-builder": "^26.0.12",
     "gh-pages": "^6.3.0"
-  }
+  },
+  "proxy": "http://localhost:5000"
 }

@@ -4,6 +4,7 @@ import './App.css';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import PasswordGate from './components/PasswordGate.tsx';
+import HamburgerMenu from './components/HamburgerMenu.tsx';
 
 function UploadModal({ open, onClose, onConfirm, uploading }) {
   const [privacy, setPrivacy] = useState('public');
@@ -672,9 +673,7 @@ function App() {
         onConfirm={handleModalConfirm}
         uploading={uploading}
       />
-      <FloatingNav triggerFileInput={triggerFileInput} uploading={uploading} onLogout={handleLogout} />
-      <MobileNavigation triggerFileInput={triggerFileInput} uploading={uploading} onLogout={handleLogout} />
-      <FloatingActionButton />
+      <HamburgerMenu triggerFileInput={triggerFileInput} uploading={uploading} onLogout={handleLogout} />
       <FloatingCollageButton />
       <CometHero />
       <input
