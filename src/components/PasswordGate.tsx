@@ -46,11 +46,19 @@ const PasswordGate: React.FC<PasswordGateProps> = ({ onPasswordCorrect }) => {
 
 
   return (
-    <div className="password-gate">
+    <div 
+      className="password-gate"
+      role="main"
+      aria-label="Wedding website password entry"
+    >
       {/* Left Side - Couple Images */}
       <div className="password-gate-left">
-        <div className="couple-images">
-          <h1>Paiya weds Risly</h1>
+        <div 
+          className="couple-images"
+          role="banner"
+          aria-label="Couple introduction"
+        >
+          <h1 aria-label="Paiya and Risly wedding">Paiya weds Risly</h1>
           <p className="wedding-date">October 9, 2025</p>
           <CouplePhotoGallery />
         </div>
@@ -70,7 +78,12 @@ const PasswordGate: React.FC<PasswordGateProps> = ({ onPasswordCorrect }) => {
             <div className="password-form-container">
               <p>Please enter the password to view our special day</p>
               
-              <form onSubmit={handleSubmit} className="password-form">
+              <form 
+                onSubmit={handleSubmit} 
+                className="password-form"
+                role="form"
+                aria-label="Password entry form"
+              >
                 <div className="password-input-group">
                   <input
                     type="password"
@@ -83,6 +96,9 @@ const PasswordGate: React.FC<PasswordGateProps> = ({ onPasswordCorrect }) => {
                     disabled={isLoading}
                     autoFocus
                     style={{ zIndex: 1000, position: 'relative' }}
+                    aria-label="Enter wedding password"
+                    aria-describedby="password-error"
+                    aria-invalid={!!error}
                   />
                   <button 
                     type="submit" 
@@ -94,7 +110,7 @@ const PasswordGate: React.FC<PasswordGateProps> = ({ onPasswordCorrect }) => {
                 </div>
                 
                 {error && (
-                  <div className="password-error">
+                  <div id="password-error" className="password-error" role="alert" aria-live="polite">
                     {error}
                   </div>
                 )}

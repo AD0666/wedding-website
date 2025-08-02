@@ -1676,6 +1676,36 @@ a:hover, .map-link:hover, .footer a:hover {
   /* Improve button touch targets */
   .nav-btn, .fab-rsvp, .fab-collage, .upload-btn {
     touch-action: manipulation;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 12px;
+  }
+  
+  .photo-dot {
+    width: 12px;
+    height: 12px;
+    margin: 0 6px;
+  }
+  
+  .hamburger-button {
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+  }
+  
+  /* Safari-specific optimizations */
+  @supports (-webkit-touch-callout: none) {
+    .password-gate {
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .couple-photo {
+      -webkit-transform: translateZ(0);
+    }
+    
+    .frosted-card {
+      -webkit-backdrop-filter: blur(16px);
+    }
   }
   
   /* Prevent zoom on double tap */

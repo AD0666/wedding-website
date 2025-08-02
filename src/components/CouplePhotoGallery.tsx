@@ -10,6 +10,11 @@ const CouplePhotoGallery: React.FC<CouplePhotoGalleryProps> = ({ onPhotoLoad }) 
   const [loading, setLoading] = useState(true);
   const [loadedPhotos, setLoadedPhotos] = useState<Set<string>>(new Set());
   const [isTransitioning, setIsTransitioning] = useState(false);
+  
+  // Touch gesture support
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const minSwipeDistance = 50;
 
   // Preload images to prevent glitches
   const preloadImages = useCallback((imageUrls: string[]) => {
@@ -26,34 +31,102 @@ const CouplePhotoGallery: React.FC<CouplePhotoGalleryProps> = ({ onPhotoLoad }) 
     });
   }, []);
 
+  // Touch gesture handlers
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe && currentPhotoIndex < photos.length - 1) {
+      changePhoto(currentPhotoIndex + 1);
+    }
+    if (isRightSwipe && currentPhotoIndex > 0) {
+      changePhoto(currentPhotoIndex - 1);
+    }
+  };
+
+  // Keyboard navigation support
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+        if (currentPhotoIndex > 0) {
+          changePhoto(currentPhotoIndex - 1);
+        }
+        break;
+      case 'ArrowRight':
+        if (currentPhotoIndex < photos.length - 1) {
+          changePhoto(currentPhotoIndex + 1);
+        }
+        break;
+    }
+  };
+
   // Fetch available couple photos
   useEffect(() => {
     const fetchCouplePhotos = async () => {
       try {
-        // Use relative path to leverage the proxy setting in package.json
-        const response = await fetch('/couple-photos');
-        console.log('Fetching couple photos from: /couple-photos');
+        // Check if we're in development (localhost) or production (GitHub Pages)
+        const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         
-        const data = await response.json();
-        console.log('Couple photos response:', data);
+        console.log('Current hostname:', window.location.hostname);
+        console.log('Current pathname:', window.location.pathname);
+        console.log('Is development:', isDevelopment);
         
-        let photoUrls: string[] = [];
-        
-        if (data.photos && data.photos.length > 0) {
-          console.log('Setting couple photos:', data.photos);
-          photoUrls = data.photos;
+        if (isDevelopment) {
+          // Use API endpoint in development
+          const response = await fetch('/couple-photos');
+          console.log('Fetching couple photos from: /couple-photos');
+          
+          const data = await response.json();
+          console.log('Couple photos response:', data);
+          
+          let photoUrls: string[] = [];
+          
+          if (data.photos && data.photos.length > 0) {
+            console.log('Setting couple photos:', data.photos);
+            photoUrls = data.photos;
+          } else {
+            console.log('No couple photos found, using fallback');
+            // Fallback to default photos if no couple photos found
+            photoUrls = [
+              '/uploads/bride-groom/bride.jpg',
+              '/uploads/bride-groom/groom.jpg'
+            ];
+          }
+          
+          setPhotos(photoUrls);
+          preloadImages(photoUrls);
+          setLoading(false);
         } else {
-          console.log('No couple photos found, using fallback');
-          // Fallback to default photos if no couple photos found
-          photoUrls = [
-            '/uploads/bride-groom/bride.jpg',
-            '/uploads/bride-groom/groom.jpg'
+          // Use static paths in production (GitHub Pages)
+          console.log('Using static couple photos for production');
+          
+          // Get the base path for GitHub Pages
+          const basePath = window.location.pathname.includes('/wedding-website') ? '/wedding-website' : '';
+          console.log('Base path:', basePath);
+          
+          const staticPhotos = [
+            `${basePath}/couple-photos/image13.jpg`,
+            `${basePath}/couple-photos/image14.jpg`,
+            `${basePath}/couple-photos/image19.jpg`
           ];
+          
+          console.log('Static photo paths:', staticPhotos);
+          setPhotos(staticPhotos);
+          preloadImages(staticPhotos);
+          setLoading(false);
         }
-        
-        setPhotos(photoUrls);
-        preloadImages(photoUrls);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching couple photos:', error);
         console.log('Using fallback couple photos');
@@ -129,7 +202,16 @@ const CouplePhotoGallery: React.FC<CouplePhotoGalleryProps> = ({ onPhotoLoad }) 
   }
 
   return (
-    <div className="couple-photos">
+    <div 
+      className="couple-photos"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      role="region"
+      aria-label="Couple photo gallery"
+    >
       {photos.map((photo, index) => (
         <img
           key={photo}
