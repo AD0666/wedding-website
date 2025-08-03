@@ -6,6 +6,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: clamp(200px, 50vw, 400px);
+  border-radius: clamp(1rem, 3vw, 2rem);
 }
 
 @keyframes loading-shimmer {
@@ -17,8 +20,8 @@
   border: 3px solid rgba(255, 255, 255, 0.3);
   border-top: 3px solid #e0c3fc;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: clamp(30px, 8vw, 40px);
+  height: clamp(30px, 8vw, 40px);
   animation: spin 1s linear infinite;
 }
 
@@ -31,16 +34,55 @@
 @media (max-width: 768px) {
   .couple-photos {
     touch-action: pan-y pinch-zoom;
+    width: 100%;
+    height: clamp(200px, 60vw, 350px);
+    border-radius: clamp(1rem, 3vw, 2rem);
+  }
+  
+  .couple-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: clamp(1rem, 3vw, 2rem);
   }
   
   .photo-dot {
-    min-width: 12px;
-    min-height: 12px;
-    margin: 0 6px;
+    min-width: clamp(10px, 3vw, 12px);
+    min-height: clamp(10px, 3vw, 12px);
+    margin: 0 clamp(4px, 1.5vw, 6px);
   }
   
   .photo-indicators {
-    bottom: 20px;
+    bottom: clamp(15px, 4vw, 20px);
+    gap: clamp(6px, 2vw, 8px);
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .couple-photos {
+    height: clamp(180px, 50vw, 250px);
+  }
+  
+  .photo-dot {
+    min-width: 8px;
+    min-height: 8px;
+    margin: 0 4px;
+  }
+  
+  .photo-indicators {
+    bottom: 12px;
+  }
+}
+
+/* Landscape mobile optimization */
+@media (max-width: 768px) and (orientation: landscape) {
+  .couple-photos {
+    height: clamp(150px, 40vw, 200px);
+  }
+  
+  .photo-indicators {
+    bottom: 10px;
   }
 }
 
