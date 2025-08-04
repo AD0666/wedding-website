@@ -30,8 +30,6 @@
   100% { transform: rotate(360deg); }
 }
 
-/* ===== ENHANCED MOBILE RESPONSIVENESS ===== */
-
 /* Mobile-specific optimizations */
 @media (max-width: 768px) {
   .couple-photos {
@@ -39,7 +37,6 @@
     width: 100%;
     height: clamp(200px, 60vw, 350px);
     border-radius: clamp(1rem, 3vw, 2rem);
-    -webkit-overflow-scrolling: touch;
   }
   
   .couple-photo {
@@ -47,54 +44,24 @@
     height: 100%;
     object-fit: cover;
     border-radius: clamp(1rem, 3vw, 2rem);
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
   }
   
   .photo-dot {
     min-width: clamp(10px, 3vw, 12px);
     min-height: clamp(10px, 3vw, 12px);
     margin: 0 clamp(4px, 1.5vw, 6px);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.4);
-  }
-  
-  .photo-dot.active {
-    background: rgba(255, 255, 255, 0.9);
-    transform: scale(1.2);
   }
   
   .photo-indicators {
     bottom: clamp(15px, 4vw, 20px);
     gap: clamp(6px, 2vw, 8px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 3;
-  }
-  
-  .couple-photo-placeholder {
-    height: clamp(180px, 50vw, 300px);
-    border-radius: clamp(0.8rem, 2.5vw, 1.5rem);
-  }
-  
-  .loading-spinner {
-    width: clamp(25px, 6vw, 35px);
-    height: clamp(25px, 6vw, 35px);
   }
 }
 
 /* Extra small mobile devices */
 @media (max-width: 480px) {
   .couple-photos {
-    height: clamp(150px, 45vw, 250px);
-    border-radius: clamp(0.8rem, 2.5vw, 1.2rem);
-  }
-  
-  .couple-photo {
-    border-radius: clamp(0.8rem, 2.5vw, 1.2rem);
+    height: clamp(180px, 50vw, 250px);
   }
   
   .photo-dot {
@@ -105,57 +72,17 @@
   
   .photo-indicators {
     bottom: 12px;
-    gap: 4px;
-  }
-  
-  .couple-photo-placeholder {
-    height: clamp(120px, 40vw, 200px);
-    border-radius: clamp(0.6rem, 2vw, 1rem);
-  }
-  
-  .loading-spinner {
-    width: clamp(20px, 5vw, 30px);
-    height: clamp(20px, 5vw, 30px);
   }
 }
 
 /* Landscape mobile optimization */
 @media (max-width: 768px) and (orientation: landscape) {
   .couple-photos {
-    height: clamp(120px, 35vw, 180px);
+    height: clamp(150px, 40vw, 200px);
   }
   
   .photo-indicators {
     bottom: 10px;
-    gap: 3px;
-  }
-  
-  .couple-photo-placeholder {
-    height: clamp(100px, 30vw, 150px);
-  }
-  
-  .loading-spinner {
-    width: clamp(18px, 4vw, 25px);
-    height: clamp(18px, 4vw, 25px);
-  }
-}
-
-/* Touch-friendly improvements */
-@media (hover: none) and (pointer: coarse) {
-  .photo-dot:hover {
-    transform: none;
-  }
-  
-  .photo-dot:active {
-    transform: scale(1.1);
-  }
-  
-  .couple-photo:hover {
-    transform: none;
-  }
-  
-  .couple-photo:active {
-    transform: scale(0.98);
   }
 }
 
@@ -164,10 +91,6 @@
   .couple-photo {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
-  }
-  
-  .photo-dot {
-    border: 0.5px solid rgba(255, 255, 255, 0.2);
   }
 }
 
@@ -183,88 +106,5 @@
   
   .couple-photo-placeholder {
     animation: none;
-  }
-  
-  .photo-dot {
-    transition: none;
-  }
-}
-
-/* Additional responsive improvements */
-@media (max-width: 1024px) {
-  .couple-photos {
-    height: clamp(250px, 55vw, 400px);
-  }
-  
-  .couple-photo-placeholder {
-    height: clamp(220px, 50vw, 350px);
-  }
-}
-
-/* Tablet optimizations */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .photo-dot {
-    min-width: clamp(12px, 2.5vw, 14px);
-    min-height: clamp(12px, 2.5vw, 14px);
-  }
-  
-  .photo-indicators {
-    bottom: clamp(20px, 3vw, 25px);
-  }
-}
-
-/* Large screen optimizations */
-@media (min-width: 1200px) {
-  .couple-photos {
-    height: clamp(350px, 45vw, 450px);
-  }
-  
-  .couple-photo-placeholder {
-    height: clamp(320px, 42vw, 420px);
-  }
-}
-
-/* Ultra-wide screen support */
-@media (min-width: 1600px) {
-  .couple-photos {
-    height: clamp(400px, 40vw, 500px);
-  }
-  
-  .couple-photo-placeholder {
-    height: clamp(370px, 38vw, 470px);
-  }
-}
-
-/* Safe area for devices with notches */
-@supports (padding: max(0px)) {
-  .photo-indicators {
-    bottom: max(clamp(15px, 4vw, 20px), env(safe-area-inset-bottom));
-  }
-}
-
-/* Performance optimizations for mobile */
-@media (max-width: 768px) {
-  .couple-photo {
-    will-change: transform;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-  }
-  
-  .couple-photos {
-    will-change: scroll-position;
-    scroll-behavior: smooth;
-  }
-}
-
-/* Focus states for accessibility */
-@media (max-width: 768px) {
-  .photo-dot:focus {
-    outline: 2px solid #a7a6f6;
-    outline-offset: 2px;
-  }
-  
-  .couple-photos:focus {
-    outline: 2px solid #a7a6f6;
-    outline-offset: 2px;
   }
 } 
