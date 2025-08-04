@@ -23,11 +23,16 @@ const FloatingFlowers: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
+    // Set canvas size based on the container
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const container = canvas.parentElement;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+      }
     };
+    
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
@@ -50,14 +55,14 @@ const FloatingFlowers: React.FC = () => {
     // Initialize flowers
     const initFlowers = () => {
       flowersRef.current = [];
-      const rightSideWidth = canvas.width * 0.5; // Right half of screen
-      const startX = canvas.width * 0.5; // Start from middle
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
 
-      for (let i = 0; i < 25; i++) {
+      for (let i = 0; i < 20; i++) {
         const flowerType = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
         flowersRef.current.push({
           id: i,
-          x: startX + Math.random() * rightSideWidth,
+          x: Math.random() * canvasWidth,
           y: -50 - Math.random() * 200, // Start above screen
           size: flowerType.size + Math.random() * 8,
           rotation: Math.random() * 360,
@@ -74,25 +79,25 @@ const FloatingFlowers: React.FC = () => {
       ctx.translate(x, y);
       ctx.rotate((rotation * Math.PI) / 180);
 
-             // Rose petals
-       for (let i = 0; i < 8; i++) {
-         ctx.save();
-         ctx.rotate((i * Math.PI) / 4);
-         
-         // Petal gradient
-         const gradient = ctx.createRadialGradient(0, -size/2, 0, 0, -size/2, size);
-         gradient.addColorStop(0, color);
-         gradient.addColorStop(1, '#8b0000');
-         
-         ctx.fillStyle = gradient;
-         ctx.beginPath();
-         ctx.ellipse(0, -size/2, size/3, size/2, 0, 0, Math.PI * 2);
-         ctx.fill();
-         ctx.restore();
-       }
+      // Rose petals
+      for (let i = 0; i < 8; i++) {
+        ctx.save();
+        ctx.rotate((i * Math.PI) / 4);
+        
+        // Petal gradient
+        const gradient = ctx.createRadialGradient(0, -size/2, 0, 0, -size/2, size);
+        gradient.addColorStop(0, color);
+        gradient.addColorStop(1, '#8b0000');
+        
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.ellipse(0, -size/2, size/3, size/2, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
 
-       // Center
-       ctx.fillStyle = '#654321';
+      // Center
+      ctx.fillStyle = '#654321';
       ctx.beginPath();
       ctx.arc(0, 0, size/4, 0, Math.PI * 2);
       ctx.fill();
@@ -223,7 +228,7 @@ const FloatingFlowers: React.FC = () => {
         // Reset flower when it goes off screen
         if (flower.y > canvas.height + 50) {
           flower.y = -50 - Math.random() * 100;
-          flower.x = canvas.width * 0.5 + Math.random() * (canvas.width * 0.5);
+          flower.x = Math.random() * canvas.width;
           flower.delay = timestamp + Math.random() * 2000;
         }
 
