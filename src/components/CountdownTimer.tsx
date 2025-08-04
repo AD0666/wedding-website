@@ -46,7 +46,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ weddingDate }) => {
         <span className="countdown-value">{timeLeft.hours}</span>
         <span className="countdown-label">HOURS</span>
         <span className="countdown-value">{timeLeft.minutes}</span>
-        <span className="countdown-label">MINS</span>
+        <span className="countdown-label">MIN</span>
       </div>
       <div className="countdown-text">UNTIL OUR SPECIAL DAY</div>
     </div>
